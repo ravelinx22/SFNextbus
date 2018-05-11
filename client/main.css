@@ -1,0 +1,31 @@
+/* CSS declarations go here */
+
+/* Line chart */
+body { font: 12px Arial; }
+
+path { 
+	stroke: steelblue;
+	stroke-width: 2;
+	fill: none;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: grey;
+	stroke-width: 1;
+	shape-rendering: crispEdges;
+
+}
+
+/* Bar chart */
+body {
+	background-color: #ffffff;
+	font-family: Helvetica, Arial, sans-serif;
+	padding: 50px;
+
+}
+
+rect {
+	fill: #03cbbe;
+}
