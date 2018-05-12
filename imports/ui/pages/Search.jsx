@@ -41,6 +41,10 @@ class Search extends Component {
 		console.log(this.state);
 	}
 
+	logOut() {
+		Meteor.logout(() => {});
+	}
+
 	render() {
 		return(
 			<div id="search-content">
@@ -50,6 +54,7 @@ class Search extends Component {
 				</datalist>
 				<input type="text" ref="route_input" placeholder="Route"/>
 				<button onClick={this.search.bind(this)}>Load</button>
+				<button onClick={this.logOut.bind(this)}>Log Out</button>
 			</div>
 		);			
 	}
