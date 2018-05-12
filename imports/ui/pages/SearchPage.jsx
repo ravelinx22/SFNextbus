@@ -70,9 +70,16 @@ class SearchPage extends Component {
 
 export default withRouter(
 	withTracker((props) => {
+		var ranking = [];
+		
 		Meteor.subscribe("search");
+		Meteor.call("search.ranking", (err, res) => {
+			ranking.push.apply(ranking,res);
+		});
+
 		return {
 			searches: Search.find({}).fetch(),
+			ranking: ranking
 		};
 	})(SearchPage)
 );
