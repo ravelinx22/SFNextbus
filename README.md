@@ -5,7 +5,7 @@
 The bugs I found in the D3 code provided were the following:
 
 - When finding the min date the code used buses[1], this was incorrect because the bus in the position buses[0] leaves earlier than the second bus having a smaller date.
-- When trying to add 24 hours to the min date the code added 22*60*60*1000 so it was adding 22 hours in reality. To fix this it was necessary to change de 22 to 24. 
+- When trying to add 24 hours to the min date the code added 22 * 60 * 60 * 1000 so it was adding 22 hours in reality. To fix this it was necessary to change de 22 to 24. 
 
 
 ## Deployment
