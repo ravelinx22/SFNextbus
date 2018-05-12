@@ -35,7 +35,6 @@ class SearchPage extends Component {
 					let ag = ans[i];
 					fastAccess[ag.title] = ag.tag;
 				}
-
 				this.setState({
 					agencies: ans,
 					fastAccess: fastAccess,
