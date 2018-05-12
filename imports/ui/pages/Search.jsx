@@ -1,26 +1,24 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
-import * as d3 from "d3";
-import { getBuses, getAgencies, getRoutes } from "../../data.js";
-import { BusChart } from "../charts/BusChart.js";
+import { Meteor } from "meteor/meteor";
+import { withRouter } from "react-router-dom";
+import { withTracker } from "meteor/react-meteor-data";
+import { getAgencies, getRoutes  } from "../../data.js";
 
-export default class Home extends Component {
+class Search extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			buses: [],
-			stops: [],
 			agencies: [],
 			routes: []
-		}
+		}	
 	}
 
 	componentDidMount() {
 		this.loadAgencies();
 	}
 
-
-	/* Load data from server*/
+	/* Load data from server */
 	loadAgencies() {
 		getAgencies()
 			.then((ans) => {
@@ -39,29 +37,26 @@ export default class Home extends Component {
 			});
 	}
 
-	loadData() {
-		getBuses(this.refs.agen_input.value, this.refs.route_input.value).then((res) => {	
-			this.setState(res);
-			this.draw();
-		});
-	}
-
-	/* D3 */
-	draw() {
-		BusChart(this.state.buses, this.state.stops);
+	search() {
+		console.log(this.state);
 	}
 
 	render() {
 		return(
-			<div id="content">
-				<h1>Buses</h1>
+			<div id="search-content">
+				<h1>Search</h1>	
 				<input type="text" ref="agen_input" placeholder="Agency"/>
 				<datalist>
 				</datalist>
 				<input type="text" ref="route_input" placeholder="Route"/>
-				<button onClick={this.loadData.bind(this)}>Load</button>
-				<div id="chart"></div>
+				<button onClick={this.search.bind(this)}>Load</button>
 			</div>
-		);
+		);			
 	}
 }
+
+export default withTracker((props) => {
+	//Meteor.subscribe("tests") ;
+	return {
+	};
+})(Search);
