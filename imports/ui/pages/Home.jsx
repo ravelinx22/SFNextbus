@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from "reactstrap";
 import * as d3 from "d3";
-import { getBuses } from "../../data.js";
+import { getBuses, getAgencies, getRoutes } from "../../data.js";
 import { BusChart } from "../charts/BusChart.js";
 
 export default class Home extends Component {
@@ -9,49 +9,57 @@ export default class Home extends Component {
 		super(props);
 		this.state = {
 			buses: [],
-			stops: []
+			stops: [],
+			agencies: [],
+			routes: []
 		}
 	}
 
 	componentDidMount() {
+		this.loadAgencies();
 	}
 
-	getData(location) {
-		getBuses(location).then((res) => {
-			return res.json();
-		}).then((json) => {
-			return json.route[0];
-		}).then((rou) => {
-			let buses = []
-			for (let bus of rou.tr) { 
-				let route = bus.stop.filter((d) => d.content!=="--");
-				route.forEach((d) => d.date = new Date(+d.epochTime));    
-				buses.push(route);
-			}
 
-			this.setState({
-				buses: buses,
-				stops: rou.header.stop,
+	/* Load data from server*/
+	loadAgencies() {
+		getAgencies()
+			.then((ans) => {
+				this.setState({
+					agencies: ans,
+				})
 			});
+	}
+
+	loadRoutes(agency) {
+		getRoutes(agency)
+			.then((ans) => {
+				this.setState({
+					routes: ans,
+				});		
+			});
+	}
+
+	loadData() {
+		getBuses(this.refs.agen_input.value, this.refs.route_input.value).then((res) => {	
+			this.setState(res);
 			this.draw();
 		});
 	}
 
+	/* D3 */
 	draw() {
 		BusChart(this.state.buses, this.state.stops);
-	}
-
-	load() {
-		this.getData(this.refs.input.value);
-		console.log(this.refs.input.value);
 	}
 
 	render() {
 		return(
 			<div id="content">
 				<h1>Buses</h1>
-				<input type="text" ref="input"/>
-				<button onClick={this.load.bind(this)}>Load</button>
+				<input type="text" ref="agen_input" placeholder="Agency"/>
+				<datalist>
+				</datalist>
+				<input type="text" ref="route_input" placeholder="Route"/>
+				<button onClick={this.loadData.bind(this)}>Load</button>
 				<div id="chart"></div>
 			</div>
 		);
