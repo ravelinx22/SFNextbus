@@ -17,9 +17,9 @@ export default class CommentComponent extends Component {
 	render() {
 		return (
 			<Row id="comment-row">
-				<div>{this.props.comment.profile_name}</div>
-				<div>{this.props.comment.message}</div>
+				<img src={this.props.comment.profile_pic} alt="profile" className="img-circle"/>
+				<span>{this.props.comment.profile_name}:</span> {this.props.comment.message}
 			</Row>
-		 );
+		);
 	}
 }

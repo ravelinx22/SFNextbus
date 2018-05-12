@@ -56,14 +56,14 @@ class ResultPage extends Component {
 				<h1>Result</h1>					
 				<div id="chart"></div>
 				<Container>
-					<h1>Leave a comment</h1>
-					<Row>
+					<h1 className="subsec_title">Leave a comment</h1>
+					<Row className="justify-content-center">
 						<input type="text" placeholder="Comment" ref="comment"/>
 						<button onClick={this.comment.bind(this)}>Submit</button>
 					</Row>
 				</Container>
 				<Container>
-					<h1>Comments</h1>
+					<h1 className="subsec_title">Comments</h1>
 					{this.renderComments()}
 				</Container>
 			</div>

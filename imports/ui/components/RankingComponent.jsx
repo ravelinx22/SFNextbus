@@ -19,8 +19,8 @@ export default class RankingComponent extends Component {
 	renderRanking() {
 		Meteor.call("search.ranking", (err, res) => {
 			console.log(res);
-			var spots = res.map((ser) => {
-				return <Row key={ser._id}>{ser._id}</Row>
+			var spots = res.map((ser, i) => {
+				return <Row key={ser._id} className="justify-content-center"><span>{i+1}.</span> {ser._id}</Row>
 			})
 			this.setState({
 				spots: spots
@@ -30,7 +30,7 @@ export default class RankingComponent extends Component {
 
 	render() {
 		return (
-			<Container>
+			<Container className="ranking-content">
 				{this.state.spots}
 			</Container>
 		 );

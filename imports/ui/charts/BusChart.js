@@ -1,16 +1,18 @@
 import * as d3 from "d3";
 
 export function BusChart(buses, stops) {
-	const width = 1300;
+	console.log(buses);
 	const height = 600;
-	var svg = d3.select("#chart")
-			.append("svg")
+	var chart = d3.select("#chart");
+	const margin = ({top: 20, right: 30, bottom: 30, left: 150});
+	var width = chart.node().getBoundingClientRect().width;
+
+	var svg = chart.append("svg")
 			.attr("width", width)
 			.attr("height", height);
 
-	const margin = ({top: 20, right: 30, bottom: 30, left: 150});
-	const minDate = d3.min(buses[1], d => d.date);
-	const maxDate = new Date(minDate.getTime() + 22*60*60*1000); // minDate + 24 hours
+	const minDate = d3.min(buses[0], d => d.date);
+	const maxDate = new Date(minDate.getTime() + 24*60*60*1000); // minDate + 24 hours
 	const x = d3.scaleTime()
 		.domain([ minDate, maxDate  ])
 		.range([margin.left, width - margin.right]);

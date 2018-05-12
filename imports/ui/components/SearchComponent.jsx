@@ -17,9 +17,11 @@ export default class SearchComponent extends Component {
 	render() {
 		return (
 			<Row id="search-component">
-				<div>{this.props.search.agency}</div>
-				<div>{this.props.search.route}</div>
-				<div>{this.props.search.profile_name}</div>
+				<Container>
+					<div><span>Agency:</span> {this.props.search.agency}</div>
+					<div><span>Route:</span> {this.props.search.route}</div>
+					<div><span>By:</span> {this.props.search.profile_name}</div>
+				</Container>
 			</Row>
 		 );
 	}

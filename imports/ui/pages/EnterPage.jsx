@@ -29,10 +29,15 @@ export default class EnterPage extends Component {
 
 	render() {
 		return (
-			<div id="enter-content">
-				<h1>Enter</h1>
-				<button onClick={this.enterWithTwitter.bind(this)}>Enter with Twitter</button>
-			</div>
+			<div className="enter-content">
+				<Container>
+				<div className="mainTitle">SFNextbus</div>
+				<h1>Find your route</h1>
+				<Row className="justify-content-center">
+					<button id="btnTwitter" onClick={this.enterWithTwitter.bind(this)}><i className="fa fa-twitter"/>Enter with Twitter</button>
+				</Row>
+			</Container>
+		</div>
 		);
 	}
 }

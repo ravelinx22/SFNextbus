@@ -14,7 +14,8 @@ class SearchPage extends Component {
 		super(props);
 		this.state = {
 			agencies: [],
-			routes: []
+			routes: [],
+			fastAccess: {}
 		}	
 	}
 
@@ -26,8 +27,15 @@ class SearchPage extends Component {
 	loadAgencies() {
 		getAgencies()
 			.then((ans) => {
+				var fastAccess = {};
+				for(var i = 0; i < ans.length; i++) {
+					let ag = ans[i];
+					fastAccess[ag.title] = ag.tag;
+				}
+
 				this.setState({
 					agencies: ans,
+					fastAccess: fastAccess,
 				})
 			});
 	}
@@ -42,7 +50,7 @@ class SearchPage extends Component {
 	}
 
 	search() {
-		const agency = this.refs.agen_input.value;
+		const agency = this.state.fastAccess[this.refs.agen_input.value];
 		const route = this.refs.route_input.value;
 		this.props.history.push("/result?a=" + agency + "&r=" + route);
 		Meteor.call("search.insert", {
@@ -57,6 +65,26 @@ class SearchPage extends Component {
 		});
 	}
 
+	renderAgencies() {
+		return this.state.agencies.map((ag) => {
+			return <option value={ag.title} key={ag.tag}/>
+		})
+	}
+
+	renderRoutes() {
+		console.log(this.state);
+		return this.state.routes.map((rou) => {
+			return <option value={rou.tag} key={rou.tag}/>
+		})
+	}
+
+	onInput(e) {
+		if(this.state.fastAccess[e.target.value]) {
+			console.log("Se encontro agencia");
+			this.loadRoutes(this.state.fastAccess[e.target.value]);
+		}
+	}
+
 	/* User related */
 	logOut() {
 		Meteor.logout(() => {});
@@ -64,18 +92,27 @@ class SearchPage extends Component {
 
 	render() {
 		return(
-			<div id="search-content">
-				<h1>Search</h1>	
-				<input type="text" ref="agen_input" placeholder="Agency"/>
-				<datalist>
-				</datalist>
-				<input type="text" ref="route_input" placeholder="Route"/>
-				<button onClick={this.search.bind(this)}>Load</button>
-				<button onClick={this.logOut.bind(this)}>Log Out</button>
-				<Container>
+			<Container id="search-content">
+				<Row>
+					<button className="ml-auto" onClick={this.logOut.bind(this)}>Log Out</button>
+				</Row>
+				<div className="mainTitle">SFNextbus</div>
+				<h1 className="search-title">Search</h1>	
+				<Row className="justify-content-center">
+					<input list="agencies" type="text" ref="agen_input" placeholder="Agency" onInput={this.onInput.bind(this)}/>
+					<datalist id="agencies">
+						{this.renderAgencies()}
+					</datalist>
+					<input list="routes" type="text" ref="route_input" placeholder="Route"/>
+					<datalist id="routes">
+						{this.renderRoutes()}
+					</datalist>
+					<button onClick={this.search.bind(this)}>Load</button>
+				</Row>
+				<Container className="history-content">
 					<Row>
 						<Col md="6">
-							<h4>Previou searches</h4>
+							<h4>Previous searches</h4>
 							{this.renderSearches()}
 						</Col>
 						<Col md="6">
@@ -84,7 +121,7 @@ class SearchPage extends Component {
 						</Col>
 					</Row>
 				</Container>
-			</div>
+			</Container>
 		);			
 	}
 }
@@ -94,7 +131,7 @@ export default withRouter(
 		Meteor.subscribe("search");
 
 		return {
-			searches: Search.find({}).fetch(),
+			searches: Search.find({}, {sort: {createdAt: -1}, limit: 10}).fetch(),
 		};
 	})(SearchPage)
 );
