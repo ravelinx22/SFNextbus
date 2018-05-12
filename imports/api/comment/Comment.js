@@ -18,11 +18,14 @@ Meteor.methods({
 			message: String
 		});
 
+		const user_data = Meteor.user().services.twitter;
 		Comment.insert({
 			createdAt: new Date(),
 			agency: object.agency,
 			route: object.route,
-			message: object.message
+			message: object.message,
+			profile_pic: user_data.screenName,
+			profile_name: user_data.profile_image_url
 		})			
 	}
 });
