@@ -24,8 +24,8 @@ Meteor.methods({
 			agency: object.agency,
 			route: object.route,
 			message: object.message,
-			profile_pic: user_data.screenName,
-			profile_name: user_data.profile_image_url
+			profile_name: user_data.screenName,
+			profile_pic: user_data.profile_image_url
 		})			
 	}
 });

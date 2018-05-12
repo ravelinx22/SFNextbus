@@ -6,6 +6,9 @@ import { withTracker } from "meteor/react-meteor-data";
 import { getAgencies, getRoutes  } from "../../data.js";
 import { Search } from "../../api/search/Search.js";
 
+import SearchComponent from "../components/SearchComponent.jsx";
+import RankingComponent from "../components/RankingComponent.jsx";
+
 class SearchPage extends Component {
 	constructor(props) {
 		super(props);
@@ -48,6 +51,12 @@ class SearchPage extends Component {
 		});
 	}
 
+	renderSearches() {
+		return this.props.searches.map((search) => {
+			return <SearchComponent search={search} key={search._id}/>
+		});
+	}
+
 	/* User related */
 	logOut() {
 		Meteor.logout(() => {});
@@ -63,6 +72,18 @@ class SearchPage extends Component {
 				<input type="text" ref="route_input" placeholder="Route"/>
 				<button onClick={this.search.bind(this)}>Load</button>
 				<button onClick={this.logOut.bind(this)}>Log Out</button>
+				<Container>
+					<Row>
+						<Col md="6">
+							<h4>Previou searches</h4>
+							{this.renderSearches()}
+						</Col>
+						<Col md="6">
+							<h4>Top searched agencies</h4>
+							<RankingComponent/>
+						</Col>
+					</Row>
+				</Container>
 			</div>
 		);			
 	}
@@ -70,16 +91,10 @@ class SearchPage extends Component {
 
 export default withRouter(
 	withTracker((props) => {
-		var ranking = [];
-		
 		Meteor.subscribe("search");
-		Meteor.call("search.ranking", (err, res) => {
-			ranking.push.apply(ranking,res);
-		});
 
 		return {
 			searches: Search.find({}).fetch(),
-			ranking: ranking
 		};
 	})(SearchPage)
 );

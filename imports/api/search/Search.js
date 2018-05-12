@@ -17,11 +17,14 @@ Meteor.methods({
 			route: String
 		});
 
+		const user_data = Meteor.user().services.twitter;
 		Search.insert({
 			createdAt: new Date(),
 			agency: object.agency,
-			route: object.route
-		})			
+			route: object.route,
+			profile_name: user_data.screenName,
+			profile_pic: user_data.profile_image_url
+		})		
 	},
 	"search.ranking"() {
 		if(Meteor.isServer) {
