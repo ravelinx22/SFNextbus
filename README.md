@@ -21,10 +21,17 @@ git clone https://github.com/ravelinx22/CoderHunt.git
 cd SFNextbus
 meteor npm install
 ```
+#### You need to create a file named settings.json with the Twitter API keys as follows:
 
+```
+{
+	"CONSUMER_KEY": "---------------",
+	"CONSUMER_SECRET": "------------------",
+}
+```
 #### Run the project
 ```
-meteor
+meteor --settings settings.json
 ```
 
 The project runs in http://localhost:3000/
