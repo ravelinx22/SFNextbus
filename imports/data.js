@@ -3,7 +3,7 @@ import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/jelly.css';
 
-const basePath = "https://webservices.nextbus.com/service/publicJSONFeed?command=";
+const basePath = "http://webservices.nextbus.com/service/publicJSONFeed?command=";
 
 export function getBuses(location, route) {
 	const url = basePath + "schedule&a=" + location +"&r=" + route;
