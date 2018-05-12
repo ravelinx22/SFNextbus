@@ -4,10 +4,10 @@ import { Meteor } from "meteor/meteor";
 import { withRouter } from "react-router-dom";
 import { withTracker } from "meteor/react-meteor-data";
 
-import Search from "./Search.jsx";
-import Enter from "./Enter.jsx";
+import SearchPage from "./SearchPage.jsx";
+import EnterPage from "./EnterPage.jsx";
 
-class Home extends Component {
+class HomePage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -20,7 +20,7 @@ class Home extends Component {
 	render() {
 		return (
 			<div id="home-content">
-				{this.props.user ? <Search/> : <Enter/>}
+				{this.props.user ? <SearchPage/> : <EnterPage/>}
 			</div>
 		);
 	}
@@ -30,4 +30,4 @@ export default withTracker((props) => {
 	return {
 		user: Meteor.userId()
 	}
-})(Home);
+})(HomePage);

@@ -4,8 +4,9 @@ import { Meteor } from "meteor/meteor";
 import { withRouter } from "react-router-dom";
 import { withTracker } from "meteor/react-meteor-data";
 import { getAgencies, getRoutes  } from "../../data.js";
+import { Search } from "../../api/search/Search.js";
 
-class Search extends Component {
+class SearchPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -38,9 +39,16 @@ class Search extends Component {
 	}
 
 	search() {
-		console.log(this.state);
+		const agency = this.refs.agen_input.value;
+		const route = this.refs.route_input.value;
+		this.props.history.push("/result?a=" + agency + "&r=" + route);
+		Meteor.call("search.insert", {
+			agency: agency,
+			route: route
+		});
 	}
 
+	/* User related */
 	logOut() {
 		Meteor.logout(() => {});
 	}
@@ -60,8 +68,11 @@ class Search extends Component {
 	}
 }
 
-export default withTracker((props) => {
-	//Meteor.subscribe("tests") ;
-	return {
-	};
-})(Search);
+export default withRouter(
+	withTracker((props) => {
+		Meteor.subscribe("search");
+		return {
+			searches: Search.find({}).fetch(),
+		};
+	})(SearchPage)
+);

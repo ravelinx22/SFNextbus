@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import { withTracker } from "meteor/react-meteor-data";
 import { Accounts   } from 'meteor/accounts-base'
 
-export default class Enter extends Component {
+export default class EnterPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {

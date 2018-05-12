@@ -7,7 +7,7 @@ import { getBuses } from "../../data.js";
 import { BusChart  } from "../charts/BusChart.js";
 const queryString = require('query-string');
 
-class Result extends Component {
+class ResultPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -49,4 +49,4 @@ export default withTracker((props) => {
 		agency: queryParams.a,
 		route: queryParams.r,
 	};
-})(Result);
+})(ResultPage);
