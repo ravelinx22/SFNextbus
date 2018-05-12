@@ -1,6 +1,9 @@
 import * as d3 from "d3";
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/jelly.css';
 
-const basePath = "http://webservices.nextbus.com/service/publicJSONFeed?command=";
+const basePath = "https://webservices.nextbus.com/service/publicJSONFeed?command=";
 
 export function getBuses(location, route) {
 	const url = basePath + "schedule&a=" + location +"&r=" + route;
@@ -9,19 +12,35 @@ export function getBuses(location, route) {
 			return res.json();
 		})
 		.then((json) => {
-			return json.route[0];
+			try {
+				return json.route[0];
+			} catch(e) {
+				Alert.error("Opps there was an error please go back", {
+					position: 'top-right',
+					effect: 'jelly',
+					timeout: 2000,
+				});
+			}
 		})
 		.then((rou) => {
-			let buses = []
-			for (let bus of rou.tr) { 
-				let route = bus.stop.filter((d) => d.content!=="--");
-				route.forEach((d) => d.date = new Date(+d.epochTime));    
-				buses.push(route);
+			try {
+				let buses = []
+				for (let bus of rou.tr) { 
+					let route = bus.stop.filter((d) => d.content!=="--");
+					route.forEach((d) => d.date = new Date(+d.epochTime));    
+					buses.push(route);
+				}
+				return {
+					buses: buses,
+					stops: rou.header.stop,
+				};
+			} catch(e) {
+				Alert.error("Opps there was an error please go back", {
+					position: 'top-right',
+					effect: 'jelly',
+					timeout: 2000,
+				});
 			}
-			return {
-				buses: buses,
-				stops: rou.header.stop,
-			};
 		});
 }
 

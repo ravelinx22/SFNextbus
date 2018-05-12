@@ -6,6 +6,7 @@ import { withTracker } from "meteor/react-meteor-data";
 import { getBuses } from "../../data.js";
 import { BusChart  } from "../charts/BusChart.js";
 import { Comment } from "../../api/comment/Comment.js";
+import { GridLoader } from 'react-spinners';
 const queryString = require('query-string');
 
 import CommentComponent from "../components/CommentComponent.jsx";
@@ -15,7 +16,8 @@ class ResultPage extends Component {
 		super(props);
 		this.state = {
 			buses: [],
-			stops: []
+			stops: [],
+			loading: true
 		}	
 	}
 
@@ -47,13 +49,22 @@ class ResultPage extends Component {
 	/* D3 */
 	draw() {
 		BusChart(this.state.buses, this.state.stops);
+		this.setState({
+			loading: false
+		});
 	}
 
 	render() {
 		return(
 			<div id="result-content">
 				<button onClick={() => {this.props.history.push("/")}}>Back</button>
-				<h1>Result</h1>					
+				<h1>Result</h1>
+				<Row className="grid-loader justify-content-center">
+					<GridLoader
+						color={'#1da1f2'} 
+						loading={this.state.loading} 
+					/>
+				</Row>
 				<div id="chart"></div>
 				<Container>
 					<h1 className="subsec_title">Leave a comment</h1>

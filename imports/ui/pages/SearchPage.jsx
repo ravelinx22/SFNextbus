@@ -5,6 +5,9 @@ import { withRouter } from "react-router-dom";
 import { withTracker } from "meteor/react-meteor-data";
 import { getAgencies, getRoutes  } from "../../data.js";
 import { Search } from "../../api/search/Search.js";
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-default.css';
+import 'react-s-alert/dist/s-alert-css-effects/jelly.css';
 
 import SearchComponent from "../components/SearchComponent.jsx";
 import RankingComponent from "../components/RankingComponent.jsx";
@@ -52,11 +55,20 @@ class SearchPage extends Component {
 	search() {
 		const agency = this.state.fastAccess[this.refs.agen_input.value];
 		const route = this.refs.route_input.value;
-		this.props.history.push("/result?a=" + agency + "&r=" + route);
-		Meteor.call("search.insert", {
-			agency: agency,
-			route: route
-		});
+
+		if(agency && route) {
+			this.props.history.push("/result?a=" + agency + "&r=" + route);
+			Meteor.call("search.insert", {
+				agency: agency,
+				route: route
+			});
+		} else {
+			Alert.error("Opps the agency doesn't exists please try again.", {
+				position: 'top-right',
+				effect: 'jelly',
+				timeout: 2000,
+			});
+		}
 	}
 
 	renderSearches() {
@@ -72,10 +84,21 @@ class SearchPage extends Component {
 	}
 
 	renderRoutes() {
-		console.log(this.state);
-		return this.state.routes.map((rou) => {
-			return <option value={rou.tag} key={rou.tag}/>
-		})
+		if(!this.state.routes) {
+			Alert.error("Opps there was an error please go back", {
+				position: 'top-right',
+				effect: 'jelly',
+				timeout: 2000,
+			});
+		} else {
+			if(Array.isArray(this.state.routes)) {
+				return this.state.routes.map((rou) => {
+					return <option value={rou.tag} key={rou.tag}/>
+				})
+			} else {
+				return <option value={this.state.routes.tag} key={this.state.routes.tag}/>
+			}
+		}
 	}
 
 	onInput(e) {
