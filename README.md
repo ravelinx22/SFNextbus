@@ -1,5 +1,9 @@
 # SFNextbus
 
+## Creative Component
+
+For this project I added a list of the most searched agencies in the page so that people can now which of them are the most popular, also the user has a spinner to indicate that the search is being loaded every time the searches for a route.
+
 ## Bugs Fixed
 
 The bugs I found in the D3 code provided were the following:
