@@ -2,7 +2,7 @@
 
 ## Creative Component
 
-For this project I added a list of the most searched agencies in the page so that people can now which of them are the most popular, also the user has a spinner to indicate that the search is being loaded every time the searches for a route.
+For this project I added a list of the most searched agencies in the page so that people can now which of them are the most popular, also the user has a spinner to indicate that the search is being loaded every time the search is in process of completition.
 
 ## Bugs Fixed
 
